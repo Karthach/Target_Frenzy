@@ -1,0 +1,295 @@
+/* General */
+html, body {
+  height: 100%; /* Asegura que el fondo cubra toda la ventana */
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(45deg, #ff0080, #00d2ff, #ff0080);
+  background-size: 400% 400%;
+  overflow: hidden;
+  transition: background 0.3s ease-in-out, filter 0.2s ease-in-out;
+  animation: gradient-pulse 3s ease infinite;
+  color: #fff;
+  height: 100%; /* Ocupa el 100% de la altura */
+}
+
+/* Neón en los textos */
+h1, p {
+  color: #00d2ff;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #ff00ff, 0 0 20px #ff0080, 0 0 30px #ff0080, 0 0 40px #ff0080;
+}
+
+@keyframes gradient-pulse {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+/* Área de juego */
+#game-area {
+  position: relative;
+  width: 50vw; /* Iniciar con el 50% del ancho de la ventana */
+  height: 50vh; /* Iniciar con el 50% de la altura de la ventana */
+  overflow: hidden;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 8px dashed #ff0000;
+  box-sizing: border-box;
+  transition: width 1s, height 1s; /* Animación de transición en el cambio de tamaño */
+}
+
+/* Objetivo principal */
+#target {
+  position: absolute;
+  width: 50px; /* Aumentamos el tamaño */
+  height: 50px; /* Aumentamos el tamaño */
+  background-color: #ff5722;
+  border-radius: 50%;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 87, 34, 0.7); /* Sombra más atractiva */
+  cursor: pointer;
+  animation: target-blink 0.8s infinite alternate ease-in-out, target-shake 1s infinite; /* Agregamos un ligero movimiento de sacudida */
+  z-index: 10;
+  visibility: hidden; /* Ocultar inicialmente */
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+@keyframes target-blink {
+  0% {
+    transform: scale(1);
+    background-color: #ff5722;
+  }
+  100% {
+    transform: scale(1.3);
+    background-color: #ff7043;
+  }
+}
+
+/* Animación de sacudida */
+@keyframes target-shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+  }
+}
+
+#target.clicked {
+  transform: scale(0.8) translateY(5px); /* Efecto de "caída" al hacer clic */
+  opacity: 0.5;
+  background-color: #d32f2f; /* Cambio de color al hacer clic */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Menos sombra después de hacer clic */
+}
+
+#target:hover {
+  box-shadow: 0 8px 20px rgba(255, 87, 34, 0.8), 0 0 30px rgba(255, 87, 34, 0.7); /* Brillo al pasar el mouse */
+  transform: scale(1.1); /* Aumenta el tamaño al pasar el mouse */
+}
+
+/* Opcional: Animación de crecimiento al cargar */
+#target {
+  animation: target-grow 1s forwards;
+}
+
+@keyframes target-grow {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* Objetivos falsos */
+.fake-target {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #2196F3;
+  border-radius: 50%;
+  opacity: 0.7;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  animation: spawnAnimation 0.5s ease-out;
+  transition: transform 0.3s ease-in-out, top 0.2s ease, left 0.2s ease;
+}
+
+.fake-target:hover {
+  transform: scale(1.2);
+}
+
+.fake-target:active {
+  transform: scale(1.1);
+  background-color: darkblue;
+}
+
+/* Contenedor de dificultad */
+#difficulty-container {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  color: #ff5722;
+}
+
+#difficulty-container label,
+#difficulty-container select {
+  font-size: 1.2rem;
+}
+
+/* Contador */
+#countdown {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ff5722;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Puntaje */
+#score {
+  font-size: 2rem;
+  margin: 10px 0;
+  color: #ffcc00;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  animation: score-pulse 0.8s infinite alternate;
+}
+
+@keyframes score-pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+/* Botones */
+button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff3d00;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Selectores */
+select {
+  margin-left: 10px;
+  font-size: 1.2rem;
+  padding: 5px;
+}
+
+/* Partículas */
+.particle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: radial-gradient(circle, #ffcc00, #ff5722);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle-fade 0.5s ease-out, particle-move 0.5s ease-out;
+}
+
+@keyframes particle-move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, -50px);
+  }
+}
+
+/* Contenedor del mensaje */
+.victory-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 30px;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  width: 80%;
+  max-width: 500px; /* Máximo ancho */
+  display: flex;
+  flex-direction: column; /* Apilar mensaje y botón */
+  align-items: center; /* Centrar todo el contenido horizontalmente */
+  justify-content: center; /* Asegurar que el contenido esté centrado verticalmente */
+  gap: 20px; /* Espacio entre el mensaje y el botón */
+}
+
+/* Estilo del mensaje */
+.victory-message {
+  font-size: 2em;
+  color: #00d2ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff0080;
+  opacity: 0;
+  animation: fade-in 1.5s forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Estilo del botón */
+.close-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  color: #fff;
+  background-color: #ff0080;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close-button:hover {
+  background-color: #ff00b3;
+}
+
+
+

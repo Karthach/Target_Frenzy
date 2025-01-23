@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de ClickStorm++</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div id="score-container">
+    <div id="score">WIN: 450</span>
+  </div>
+  <div id="game-area">
+    <div id="countdown"></div>
+    <div id="target"></div>
+    <div id="difficulty-container">
+      <label for="difficulty"></label>
+      <select id="difficulty">
+        <option value="peaceful">Peaceful</option>
+        <option value="easy">Fácil</option>
+        <option value="medium">Medio</option>
+        <option value="hard">Difícil</option>
+      </select>
+      <button onclick="startGame()">Comenzar Juego</button>
+    </div>
+  </div>
+  
+
+  <audio id="click-sound" src="click-sound.mp3"></audio>
+  <audio id="error-sound" src="error-sound.mp3"></audio>
+  <script src="game.js"></script>
+</body>
+</html>
