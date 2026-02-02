@@ -3,33 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego de ClickStorm++</title>
+  <title>Target Frenzy</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-
-  <div id="score-container">
-    <div id="score">WIN: 450</span>
-  </div>
-  <div id="game-area">
-    <div id="countdown"></div>
-    <div id="target"></div>
-    <div id="difficulty-container">
-      <label for="difficulty"></label>
-      <select id="difficulty">
+  <!-- Menú Principal -->
+  <div id="main-menu">
+    <h1 class="game-title">TARGET FRENZY</h1>
+    <div class="menu-stats">
+      <div class="stat-item">
+        <span class="stat-label">Mejor Puntuación</span>
+        <span id="best-score" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Mejor Nivel</span>
+        <span id="best-level" class="stat-value">1</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Partidas Jugadas</span>
+        <span id="games-played" class="stat-value">0</span>
+      </div>
+    </div>
+    <div class="menu-options">
+      <label for="difficulty-menu">Dificultad:</label>
+      <select id="difficulty-menu">
         <option value="peaceful">Peaceful</option>
         <option value="easy">Fácil</option>
-        <option value="medium">Medio</option>
+        <option value="medium" selected>Medio</option>
         <option value="hard">Difícil</option>
+        <option value="nightmare">Pesadilla</option>
       </select>
-      <button onclick="startGame()">Comenzar Juego</button>
+    </div>
+    <button id="play-btn" class="menu-btn primary-btn">JUGAR</button>
+    <button id="tutorial-btn" class="menu-btn">Tutorial</button>
+    <button id="reset-btn" class="menu-btn danger-btn">Borrar Datos</button>
+  </div>
+
+  <!-- Tutorial -->
+  <div id="tutorial-overlay" class="overlay hidden">
+    <div class="tutorial-content">
+      <h2>Cómo Jugar</h2>
+      <div class="tutorial-section">
+        <h3>Objetivo</h3>
+        <p>Haz clic en los objetivos <span class="target-demo"></span> naranjas para ganar puntos.</p>
+      </div>
+      <div class="tutorial-section">
+        <h3>Cuidado</h3>
+        <p>Evita los objetivos falsos de otros colores. ¡Te quitan 3 puntos!</p>
+      </div>
+      <div class="tutorial-section">
+        <h3>Niveles</h3>
+        <ul>
+          <li><strong>Nivel 5+:</strong> Los objetivos se mueven solos</li>
+          <li><strong>Nivel 8+:</strong> Los objetivos se encogen</li>
+          <li><strong>Nivel 10+:</strong> Múltiples objetivos a la vez</li>
+          <li><strong>Nivel 15:</strong> ¡Victoria!</li>
+        </ul>
+      </div>
+      <button id="close-tutorial" class="menu-btn primary-btn">¡Entendido!</button>
     </div>
   </div>
-  
 
-  <audio id="click-sound" src="click-sound.mp3"></audio>
-  <audio id="error-sound" src="error-sound.mp3"></audio>
+  <!-- Pantalla de Pausa -->
+  <div id="pause-overlay" class="overlay hidden">
+    <div class="pause-content">
+      <h2>PAUSA</h2>
+      <button id="resume-btn" class="menu-btn primary-btn">Continuar</button>
+      <button id="restart-btn" class="menu-btn">Reiniciar</button>
+      <button id="quit-btn" class="menu-btn danger-btn">Salir al Menú</button>
+    </div>
+  </div>
+
+  <!-- Game Over -->
+  <div id="gameover-overlay" class="overlay hidden">
+    <div class="gameover-content">
+      <h2 id="gameover-title">GAME OVER</h2>
+      <div class="gameover-stats">
+        <div class="go-stat">
+          <span>Puntuación Final</span>
+          <span id="final-score" class="go-value">0</span>
+        </div>
+        <div class="go-stat">
+          <span>Nivel Alcanzado</span>
+          <span id="final-level" class="go-value">1</span>
+        </div>
+        <div class="go-stat new-record hidden" id="new-record">
+          ¡NUEVO RÉCORD!
+        </div>
+      </div>
+      <button id="retry-btn" class="menu-btn primary-btn">Reintentar</button>
+      <button id="menu-btn" class="menu-btn">Menú Principal</button>
+    </div>
+  </div>
+
+  <!-- HUD del Juego -->
+  <div id="game-hud" class="hidden">
+    <div id="score-container">
+      <div id="score">Score: 0</div>
+      <div id="level">Nivel: 1</div>
+      <div id="combo">Combo: x1</div>
+    </div>
+    <div id="progress-container">
+      <div id="level-progress">
+        <div id="progress-bar"></div>
+      </div>
+      <span id="progress-text">0/5</span>
+    </div>
+    <button id="pause-btn">⏸️</button>
+  </div>
+
+  <!-- Área de Juego -->
+  <div id="game-area" class="hidden">
+    <div id="countdown"></div>
+    <div id="target"></div>
+  </div>
+
+  <audio id="click-sound" src="sounds/click.mp3"></audio>
+  <audio id="error-sound" src="sounds/error.mp3"></audio>
+  <audio id="levelup-sound" src="sounds/levelup.mp3"></audio>
+  <audio id="combo-sound" src="sounds/combo.mp3"></audio>
   <script src="game.js"></script>
 </body>
 </html>
